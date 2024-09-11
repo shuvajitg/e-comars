@@ -26,7 +26,8 @@ function App() {
     }));
   };
 
-  const uploadeImage = async () => {
+  const uploadeImage = async (e) => {
+    e.preventDefault();
     try {
       if (!imageUpload) {
         return alert("select an image");
@@ -44,7 +45,8 @@ function App() {
     }
   };
 
-  const submit = async () => {
+  const submit = async (e) => {
+    e.preventDefault()
     try {
       const {
         title,
@@ -69,7 +71,7 @@ function App() {
         alert("All fields are required");
         return;
       }
-      const response = await axios.post("/api/addProduct", {
+      await axios.post("/api/addProduct", {
         title,
         description,
         price,
@@ -80,12 +82,10 @@ function App() {
         brand,
         imageUrl: [imageUrl],
       });
-      console.log("Product details is hear: ", response);
     } catch (error) {
       console.error("Error while submitting", error.message);
     }
   };
-  console.log(ProductSize);
 
   return (
     <>

@@ -34,7 +34,7 @@ export default function ProductDetailsFromParams() {
   };
 
   const { productData } = useProduct();
-  const product = productData.data?.find((product) => product.id === id);
+  const product = productData?.data?.find((product) => product.id === id);
   if (!product) {
     return <div>Loading or Product not found</div>;
   }
