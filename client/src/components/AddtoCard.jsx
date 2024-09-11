@@ -1,18 +1,24 @@
 import Breadcrumb from "./Breadcrumb";
-import useCard from "../hooks/userCard";
-import useProduct from "../hooks/product";
+import useJoinData from "../hooks/useJoinData";
+import { useState } from "react";
 
 export default function AddtoCard() {
-  const { userProductData } = useCard();
-  const { productData } = useProduct();
+  const { joinData } = useJoinData();
+  
 
-  const pData = productData?.data?.map((data) => data);
-  const updata = userProductData?.data?.map((data) => data.productId).flat();
-  // console.log(updata);
-
+  // const [disable, setDisable] = useState(false)
+  const totalPrice = ()=>{
+    let total = 0;
+    joinData?.data?.forEach(item=>{
+      total += item.price * item.quantity;
+    })
+    return total;
+  }
+  
   return (
     <>
       <Breadcrumb>Checkout</Breadcrumb>
+
       <div className="container grid grid-cols-12 items-start pb-16 pt-4 gap-6">
         <div className="col-span-8 border border-gray-200 p-4 rounded">
           <h3 className="text-lg font-medium capitalize mb-4">Checkout</h3>
@@ -119,27 +125,18 @@ export default function AddtoCard() {
           <h4 className="text-gray-800 text-lg mb-4 font-medium uppercase">
             order summary
           </h4>
-          {userProductData?.data?.map((data, index) => (
+          {joinData?.data?.map((data, index) => (
             <div key={index}>
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <div>
                     <div className="text-gray-800 font-medium">
-                      
-                      {updata.map((data1,index) => {
-                        pData?.find((product) => {
-                          if (product.id === data1) {
-                            return (
-                              <p key={index}>ddd{product.title}</p>
-                            )
-                          }
-                        });
-                      })}
+                      <h1>{data.title}</h1>
                     </div>
-                    <p className="text-sm text-gray-600">Size: M</p>
+                    <p className="text-sm text-gray-600">size: {data.size}</p>
                   </div>
                   <p className="text-gray-600">{data?.quantity}</p>
-                  <p className="text-gray-800 font-medium">$320</p>
+                  <p className="text-gray-800 font-medium">{`$ ${data.price}`}</p>
                 </div>
               </div>
             </div>
@@ -147,7 +144,7 @@ export default function AddtoCard() {
 
           <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
             <p>subtotal</p>
-            <p>$1280</p>
+            <p>${totalPrice()}</p>
           </div>
 
           <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
@@ -157,7 +154,7 @@ export default function AddtoCard() {
 
           <div className="flex justify-between text-gray-800 font-medium py-3 uppercas">
             <p className="font-semibold">Total</p>
-            <p>$1280</p>
+            <p>${totalPrice()}</p>
           </div>
 
           <div className="flex items-center mb-4 mt-2">

@@ -65,7 +65,15 @@ const Navbar = () => {
                     <NavLink to={"/product"} className="text-gray-200 hover:text-white transition">Product</NavLink>
                     <NavLink to={"/contact"} className="text-gray-200 hover:text-white transition">Help</NavLink>
                 </div>
-                <NavLink to={"login"} className={`${cookie ? "hidden" : "text-gray-200 hover:text-white transition"}`}>Login</NavLink>
+                <div className='flex'>
+                {
+                    !cookie ? <NavLink to={"/login"} className={` w-auto px-2 py-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium`}>Login</NavLink>
+                    : <button
+                    className={` w-auto px-2 py-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium`}>Logout</button>
+                }
+                
+                </div>
+
             </div>
         </div>
     </nav>

@@ -4,12 +4,11 @@ import { IoIosSearch } from "react-icons/io";
 import { GiSelfLove } from "react-icons/gi";
 import { GiShoppingBag } from "react-icons/gi";
 import { MdOutlineAccountBox } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../lib/getCookie";
+import useJoinData from "../hooks/useJoinData";
 
 function Header() {
-  const navigate = useNavigate();
-  const cookie = getCookie("token")
+  const { joinData } = useJoinData();
 
   return (
     <header className="py-4 shadow-sm bg-white">
@@ -56,8 +55,8 @@ function Header() {
               <GiShoppingBag/>
             </div>
             <div className="text-xs leading-3">Cart</div>
-            <div className={`${!cookie ? "hidden" : "absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs"}`}>
-              2
+            <div className={`${joinData?.data?.length === 0 ? "hidden" : "absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs"}`}>
+              {joinData?.data?.length > 0 ? <div>{joinData?.data?.length}</div> : <span>0</span>}
             </div>
           </Link>
           <Link 

@@ -34,6 +34,8 @@ export default function ProductDetails() {
   };
 
   const { productData } = useProduct();
+  // console.log(productData?.data);
+  
   const cookie = getCookie("token");
 
   return (
@@ -150,7 +152,6 @@ export default function ProductDetails() {
                 </div>
               </div>
             </div>
-
             <div className="mt-4">
               <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
               <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
@@ -180,7 +181,7 @@ export default function ProductDetails() {
                       navigation("/login");
                       toast.error("Not Authorized");
                     }else{
-                      await setProductId(() => [product.id]);
+                      await setProductId(() => product.id);
                       const { quantity } = cardData;
                       if (!productId.includes(product.id)) {
                         productId.push(product.id);
