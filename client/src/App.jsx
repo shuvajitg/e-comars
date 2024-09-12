@@ -15,6 +15,8 @@ import Wishlists from "./components/Wishlists.jsx";
 import { createContext, useState } from "react";
 import useProduct from "./hooks/product.js";
 import ProductDetailsFromParams from "./pages/DetailsFromId.jsx";
+import Sucess from "./pages/Sucess.jsx";
+import Cancle from "./pages/Cancle.jsx";
 import { Toaster } from "react-hot-toast";
 
 export const Context = createContext()
@@ -41,6 +43,8 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/card" element={<AddtoCard />} />
           <Route path="/wishlist" element={<Wishlists />} />
+          <Route path="/success" element={<Sucess />} />
+          <Route path="/cancel" element={<Cancle />} />
         </Routes>
         <Footer />
       </Router>

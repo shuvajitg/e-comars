@@ -1,9 +1,24 @@
 import Breadcrumb from "./Breadcrumb";
 import useJoinData from "../hooks/useJoinData";
-import { useState } from "react";
+import {loadStripe} from '@stripe/stripe-js';
+import { useEffect, useState } from "react";
 
 export default function AddtoCard() {
-  const { joinData } = useJoinData();
+  const { joinData } = useJoinData();  
+  const [card, setCard] = useState(null)
+  useEffect(() =>{
+    try {
+      const fetchData = () =>{
+        const responce = joinData?.data?.map(data => data)
+        setCard(()=>responce)
+      }
+      fetchData()
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  },[joinData])
   
 
   // const [disable, setDisable] = useState(false)
@@ -13,6 +28,32 @@ export default function AddtoCard() {
       total += item.price * item.quantity;
     })
     return total;
+  }
+
+  const order = async()=>{
+    const stripe = await loadStripe(`${import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY}`);
+    const body = {
+      products:card
+    }
+    const heders = {
+      'Content-Type': 'application/json'
+    }
+    const responce = await fetch('/api/order',{
+      method: 'POST',
+      headers: heders,
+      body: JSON.stringify(body)
+    })
+
+    if(responce.ok){
+      const data = await responce.json()
+      const { sessionId } = data
+      const result = await stripe.redirectToCheckout({ sessionId });
+      if (result.error) {
+        console.error('Error:', result.error.message);
+      }
+    }else{
+      console.log('Error:', responce.statusText);
+    }
   }
   
   return (
@@ -175,12 +216,12 @@ export default function AddtoCard() {
             </label>
           </div>
 
-          <a
-            href="#"
+          <button
+            onClick={order}
             className="block w-full py-3 px-4 text-center text-white bg-primary border border-primary rounded-md hover:bg-transparent hover:text-primary transition font-medium"
           >
             Place order
-          </a>
+          </button>
         </div>
       </div>
     </>
