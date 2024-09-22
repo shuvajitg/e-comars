@@ -10,6 +10,9 @@ import { Upload } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 function AddProduct({ className }) {
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -24,6 +27,8 @@ function AddProduct({ className }) {
     category: "",
     brand: "",
   });
+  const navigation = useNavigate()
+
   const handelChange = (e) => {
     const { name, value } = e.target;
     setProduct((product) => ({
@@ -43,11 +48,25 @@ function AddProduct({ className }) {
         `products/images/${imageUpload.name + v4()}`
       );
       await uploadBytes(storageRef, imageUpload);
-      alert("image uploaded successfully");
+      toast("image uplosde sucesssfully!", {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
       const url = await getDownloadURL(storageRef);
       setImageUrl(url);
     } catch (error) {
       console.error(error);
+      toast.error("Error in uploading image", {
+        style: {
+          borderRadius: "10px",
+          background: "#b30808",
+          color: "#fff",
+        },
+      });
     }
   };
 
@@ -67,7 +86,13 @@ function AddProduct({ className }) {
         !brand ||
         !imageUrl
       ) {
-        alert("All fields are required");
+        toast.error("check any fild is rmpty or not", {
+          style: {
+            borderRadius: "10px",
+            background: "#ff0000",
+            color: "#fff",
+          },
+        });
         return;
       }
       await axios.post("/api/addProduct", {
@@ -81,8 +106,17 @@ function AddProduct({ className }) {
         brand,
         imageUrl: [imageUrl],
       });
+      navigation("/")
+      toast.success("check any fild is rmpty or not", {
+        style: {
+          borderRadius: "10px",
+          background: "#82b1d3",
+          color: "#0c1921",
+        },
+      });
     } catch (error) {
       console.error("Error while submitting", error.message);
+      toast.error("Error while submitting" )
     }
   };
 
@@ -206,7 +240,6 @@ function AddProduct({ className }) {
               name="stock"
               value={product.stock}
               onChange={handelChange}
-              requird
             />
           </div>
           <Label htmlFor="description">Description</Label>

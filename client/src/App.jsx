@@ -19,16 +19,15 @@ import Sucess from "./pages/Sucess.jsx";
 import Cancle from "./pages/Cancle.jsx";
 import { Toaster } from "react-hot-toast";
 
-export const Context = createContext()
+export const Context = createContext();
 const App = () => {
-  const [details, setDetails] = useState("")
+  const [details, setDetails] = useState("");
   const { productData } = useProduct();
-  const productId = productData?.data?.map((product) => product.id)
-  
+  const productId = productData?.data?.map((product) => product.id);
 
   return (
     <Context.Provider value={[details, setDetails]}>
-    <Toaster/>
+      <Toaster position="bottom-right" reverseOrder={false} />
       <Router>
         <Header />
         <Navbar />
@@ -36,7 +35,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product" element={<About />} />
-          <Route path={`/product/:id`} element={<ProductDetailsFromParams/>}/>
+          <Route path={`/product/:id`} element={<ProductDetailsFromParams />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
