@@ -63,6 +63,8 @@ function Products() {
                   <TableHead>Category</TableHead>
                   <TableHead>Image</TableHead>
                   <TableHead>Description</TableHead>
+                  <TableHead>Brand</TableHead>
+                  <TableHead>Size</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -75,6 +77,8 @@ function Products() {
                     <TableCell>{product.stock}</TableCell>
                     <TableCell><img src={product.imageUrl} alt="" height={"50px"} width={"50px"} className='rounded-sm' /></TableCell>
                     <TableCell>{product.description}</TableCell>
+                    <TableCell>{product.brand}</TableCell>
+                    <TableCell>{product.size}</TableCell>
                     <TableCell>
                       <Button variant="ghost" size="icon" onClick={()=>toast("for your assignment",{
                         icon: "✍️",
